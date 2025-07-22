@@ -16,8 +16,6 @@ supporting multiple platform as backend.
 
 * [ ] (P2) supports sycl;
 
-* [ ] (P3) supports opencl, or vulkan compute shader;
-
 ## moke::common
 
 * a series of common utilities for heterogenuous parallel programming.
@@ -56,23 +54,23 @@ A series of utilities for testing, including:
 
 * Random number generation:
 
-    * [ ] Host random number generation with seed;
+    * [x] Host random number generation with seed;
 
     * [ ] Device parallel random number generation with seed;
 
 * Performance Profiling
 
-    * [ ] Simple performance profiling based on event;
+    * [x] Simple performance profiling based on event;
 
     * [ ] High resolutional profiling based on eg.`cupti`;
 
 * Accuracy Comparison:
 
-    * [ ] Simple binary-alignment accuracy comparator;
+    * [x] Simple binary-alignment accuracy comparator;
 
-    * [ ] Float-point accuracy comparator with **absolute error**;
+    * [x] Float-point accuracy comparator with **absolute error**;
 
-    * [ ] Float-point accuracy comparator with **relative error**;
+    * [x] Float-point accuracy comparator with **relative error**;
 
     * [ ] DIFF3 accuracy comparator;
 
