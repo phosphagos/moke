@@ -83,4 +83,7 @@ public:
 
     MOKE_HOST decltype(auto) operator*() const { return Base::operator*(); }
 };
+
+template <class T> using HostArrayView = HostTensorView<T, 1>;
+template <class T> using DeviceArrayView = DeviceTensorView<T, 1>;
 } // namespace moke

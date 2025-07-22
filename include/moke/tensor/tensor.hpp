@@ -107,4 +107,7 @@ public:
         return {m_data, static_cast<const Layout &>(*this)};
     }
 };
+
+template <class T> using HostArray = HostTensor<T, 1>;
+template <class T> using DeviceArray = DeviceTensor<T, 1>;
 } // namespace moke
