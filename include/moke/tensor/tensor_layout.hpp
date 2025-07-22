@@ -35,6 +35,7 @@ public:
 private:
     MOKE_TRIVIAL void shape_to_stride() {
         m_stride[NDims - 1] = 1;
+        if constexpr (NDims == 1) { return; }
         for (int i = NDims - 2; i >= 0; --i) {
             m_stride[i] = m_stride[i + 1] * m_shape[i + 1];
         }
