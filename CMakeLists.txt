@@ -5,3 +5,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(cmake/platform.cmake)
 add_subdirectory(moke)
+if (MOKE_ENABLE_TEST)
+    add_subdirectory(test)
+endif()
