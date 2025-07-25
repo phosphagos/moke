@@ -4,4 +4,5 @@ target_sources(
     PRIVATE
     comparator.cpp
     host_profiler.cpp
+    device_profiler.cu
 )
