@@ -4,10 +4,14 @@
 #include "moke/tensor/tensor_layout.hpp"
 
 namespace moke {
+template <class T, size_t NDIMS> class DeviceTensor;
+template <class T, size_t NDIMS> class HostTensor;
+
 template <class T, size_t NDIMS, template <class, size_t> class Iterator>
 class TensorViewBase : public TensorLayout<NDIMS, sizeof(T)> {
 protected:
     using IteratorType = typename SubTensorIterator<T, NDIMS, Iterator>::type;
+    using ConstIteratorType = typename SubTensorIterator<const T, NDIMS, Iterator>::type;
     using Layout = TensorLayout<NDIMS, sizeof(T)>;
     T *m_data;
 
@@ -20,7 +24,17 @@ public:
 
     MOKE_UNIFIED T *data() const { return this->m_data; }
 
-    MOKE_UNIFIED IteratorType operator[](index_t index) const {
+    template <template <class, size_t> class OtherTensor>
+    MOKE_HOST void load(const OtherTensor<T, NDIMS> &other) const {
+        Memcpy(this->data(), other.data(), this->bytes());
+    }
+
+    template <template <class, size_t> class OtherTensor>
+    MOKE_HOST void store(OtherTensor<T, NDIMS> &other) const {
+        Memcpy(other.data(), this->data(), this->bytes());
+    }
+
+    MOKE_UNIFIED ConstIteratorType operator[](index_t index) const {
         if constexpr (NDIMS > 1) {
             return {this->m_data + index * this->m_stride[0],
                     this->m_shape + 1, this->m_stride + 1};
@@ -29,7 +43,16 @@ public:
         }
     }
 
-    MOKE_UNIFIED IteratorType operator*() const {
+    MOKE_UNIFIED IteratorType operator[](index_t index) {
+        if constexpr (NDIMS > 1) {
+            return {this->m_data + index * this->m_stride[0],
+                    this->m_shape + 1, this->m_stride + 1};
+        } else {
+            return this->m_data[index];
+        }
+    }
+
+    MOKE_UNIFIED ConstIteratorType operator*() const {
         if constexpr (NDIMS > 1) {
             return {this->m_data, this->m_shape + 1, this->m_stride + 1};
         } else {
@@ -37,14 +60,12 @@ public:
         }
     }
 
-    template <template <class, size_t> class OtherTensor>
-    MOKE_HOST void load(const OtherTensor<T, NDIMS> &other) const {
-        Memcpy(this->data(), other.data(), this->bytes());
-    }
-
-    template <template <class, size_t> class OtherTensor>
-    MOKE_HOST void store(OtherTensor<T, NDIMS> &other) const {
-        Memcpy(other.m_data, this->data(), this->bytes());
+    MOKE_UNIFIED IteratorType operator*() {
+        if constexpr (NDIMS > 1) {
+            return {this->m_data, this->m_shape + 1, this->m_stride + 1};
+        } else {
+            return *this->m_data;
+        }
     }
 };
 
@@ -54,6 +75,7 @@ private:
     using Base = TensorViewBase<T, NDIMS, DeviceTensorIterator>;
     using Layout = typename Base::Layout;
     using Base::m_data, Layout::m_shape, Layout::m_stride;
+    friend class DeviceTensor<T, NDIMS>;
 
 public:
     MOKE_TRIVIAL DeviceTensorView() noexcept : Base{} {}
@@ -63,7 +85,11 @@ public:
 
     MOKE_DEVICE decltype(auto) operator[](index_t index) const { return Base::operator[](index); }
 
+    MOKE_DEVICE decltype(auto) operator[](index_t index) { return Base::operator[](index); }
+
     MOKE_DEVICE decltype(auto) operator*() const { return Base::operator*(); }
+
+    MOKE_DEVICE decltype(auto) operator*() { return Base::operator*(); }
 };
 
 template <class T, size_t NDIMS>
@@ -72,6 +98,7 @@ private:
     using Base = TensorViewBase<T, NDIMS, HostTensorIterator>;
     using Layout = typename Base::Layout;
     using Base::m_data, Layout::m_shape, Layout::m_stride;
+    friend class HostTensor<T, NDIMS>;
 
 public:
     MOKE_TRIVIAL HostTensorView() noexcept : Base{} {}
@@ -81,7 +108,11 @@ public:
 
     MOKE_HOST decltype(auto) operator[](index_t index) const { return Base::operator[](index); }
 
+    MOKE_DEVICE decltype(auto) operator[](index_t index) { return Base::operator[](index); }
+
     MOKE_HOST decltype(auto) operator*() const { return Base::operator*(); }
+
+    MOKE_DEVICE decltype(auto) operator*() { return Base::operator*(); }
 };
 
 template <class T> using HostArrayView = HostTensorView<T, 1>;

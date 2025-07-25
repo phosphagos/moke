@@ -5,5 +5,5 @@
 
 namespace moke {
 template <class T>
-void VectorAdd(DeviceArrayView<const T> x, DeviceArrayView<const T> y, DeviceArrayView<T> out);
+void VectorAdd(const DeviceArrayView<T> &x, const DeviceArrayView<T> &y, DeviceArrayView<T> &out);
 } // namespace moke

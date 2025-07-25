@@ -10,7 +10,7 @@ __global__ void vector_add(const T *x, const T *y, T *out, size_t length) {
 }
 
 template <class T>
-void VectorAdd(DeviceArrayView<const T> x, DeviceArrayView<const T> y, DeviceArrayView<T> out) {
+void VectorAdd(const DeviceArrayView<T> &x, const DeviceArrayView<T> &y, DeviceArrayView<T> &out) {
     if (x.size() != y.size() || x.size() != out.size()) {
         std::printf("Error: size of x, y and output does not match.\n");
         return;
@@ -21,5 +21,5 @@ void VectorAdd(DeviceArrayView<const T> x, DeviceArrayView<const T> y, DeviceArr
     vector_add<<<ceil_div(len, thread_dim), thread_dim>>>(x.data(), y.data(), out.data(), len);
 }
 
-template void VectorAdd(DeviceArrayView<const float> x, DeviceArrayView<const float> y, DeviceArrayView<float> out);
+template void VectorAdd<float>(const DeviceArrayView<float> &x, const DeviceArrayView<float> &y, DeviceArrayView<float> &out);
 } // namespace moke
