@@ -1,1 +1,7 @@
-target_sources(moke PRIVATE moke.cpp)
+target_sources(
+    moke
+
+    PRIVATE
+    memory.cu
+    runtime.cu
+)
