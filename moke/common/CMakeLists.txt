@@ -4,4 +4,5 @@ target_sources(
     PRIVATE
     memory.cu
     runtime.cu
+    handle.cu
 )
