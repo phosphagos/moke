@@ -1,3 +1,4 @@
 [submodule "test"]
 	path = test
 	url = git@github.com:phosphagos/moketest.git
+	branch = master
