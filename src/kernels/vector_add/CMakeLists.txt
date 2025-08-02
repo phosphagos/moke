@@ -3,4 +3,5 @@ target_sources(
 
     PRIVATE
     vector_add_generic.cu
+    vector_add_float4.cu
 )

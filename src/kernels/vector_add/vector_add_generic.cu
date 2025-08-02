@@ -20,7 +20,6 @@ void VectorAdd(const DeviceArrayView<T> &x, const DeviceArrayView<T> &y, DeviceA
     vector_add<<<ceil_div(len, thread_dim), thread_dim>>>(x.data(), y.data(), out.data(), len);
 }
 
-template void VectorAdd<float>(const DeviceArrayView<float> &, const DeviceArrayView<float> &, DeviceArrayView<float> &);
 template void VectorAdd<double>(const DeviceArrayView<double> &, const DeviceArrayView<double> &, DeviceArrayView<double> &);
 template void VectorAdd<int32_t>(const DeviceArrayView<int32_t> &, const DeviceArrayView<int32_t> &, DeviceArrayView<int32_t> &);
 } // namespace moke
