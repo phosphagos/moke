@@ -2,5 +2,6 @@ target_sources(
     moke
 
     PRIVATE
-    moke.cpp
+    memory.cpp
+    runtime.cpp
 )
