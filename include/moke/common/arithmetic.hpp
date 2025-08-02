@@ -38,4 +38,22 @@ MOKE_TRIVIAL auto pad_up(std::integral auto size) {
 
 template <class T, size_t N>
 consteval size_t length_of(const T (&arr)[N]) { return N; }
+
+#if defined(MOKE_PLATFORM_CUDA) || defined(MOKE_PLATFORM_HIP)
+MOKE_TRIVIAL dim3 operator+(dim3 m, dim3 n) {
+    return {m.x + n.x, m.y + n.y, m.z + n.z};
+}
+
+MOKE_TRIVIAL dim3 operator*(dim3 m, dim3 n) {
+    return {m.x * n.x, m.y * n.y, m.z * n.z};
+}
+
+MOKE_TRIVIAL dim3 operator/(dim3 m, dim3 n) {
+    return {m.x / n.x, m.y / n.y, m.z / n.z};
+}
+
+MOKE_TRIVIAL dim3 ceil_div(dim3 m, dim3 n) {
+    return {ceil_div(m.x, n.x), ceil_div(m.y, n.y), ceil_div(m.z, n.z)};
+}
+#endif // MOKE_PLATFORM_CUDA or MOKE_PLATFORM_HIP
 } // namespace moke
