@@ -1,0 +1,58 @@
+---
+Language:        Cpp
+BasedOnStyle:  Google
+AccessModifierOffset: -4
+AlignAfterOpenBracket: BlockIndent
+AlignTrailingComments:
+  Kind:            Leave
+  OverEmptyLines:  0
+AllowShortBlocksOnASingleLine: Always
+AllowShortLoopsOnASingleLine: true
+AlwaysBreakBeforeMultilineStrings: false
+BreakAfterAttributes: Leave
+BreakArrays:     false
+BreakInheritanceList: AfterColon
+BreakTemplateDeclarations: Leave
+ColumnLimit:     0
+ConstructorInitializerIndentWidth: 8
+ContinuationIndentWidth: 8
+DerivePointerAlignment: false
+IncludeBlocks:   Preserve
+IndentExternBlock: Indent
+IndentWidth:     4
+InsertBraces: true
+InsertNewlineAtEOF: true
+NamespaceIndentation: Inner
+PackConstructorInitializers: CurrentLine
+PointerAlignment: Right
+RequiresClausePosition: WithPreceding
+ShortNamespaceLines: 0
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 1
+Standard:        Latest
+TabWidth:        4
+IncludeCategories:
+  # moke public headers
+  - Regex: '^"moke/'
+    Priority: 0
+    SortPriority: 1
+
+  # private headers
+  - Regex: '"*.(h|hpp)"'
+    Priority: 0
+    SortPriority: 2
+
+  # moke public headers, included by tests and examples
+  - Regex: '^<moke/'
+    Priority: 0
+    SortPriority: 3
+
+  # third-party headers
+  - Regex: '<*.(h|hpp)>'
+    Priority: 0
+    SortPriority: 4
+
+  # standard headers
+  - Regex: '<[_[:alnum:]]+>'
+    Priority: 0
+    SortPriority: 5
