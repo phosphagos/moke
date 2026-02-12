@@ -1,0 +1,6 @@
+find_package(hip REQUIRED)
+
+enable_language(HIP)
+set(CMAKE_HIP_STANDARD 20)
+set(CMAKE_HIP_STANDARD_REQUIRED ON)
+set(CMAKE_HIP_EXTENSIONS OFF)
