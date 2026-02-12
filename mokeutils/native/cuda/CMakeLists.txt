@@ -4,6 +4,7 @@ target_sources(
     PRIVATE
     memory.cpp
     status.cpp
+    timer.cpp
     kernels/memory.cu
     kernels/compare.cu
     kernels/random_fill.cu
