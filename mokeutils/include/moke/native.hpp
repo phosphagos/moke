@@ -1,2 +1,3 @@
 #pragma once
 #include "moke/native/memory.hpp"
+#include "moke/native/algorithm.hpp"

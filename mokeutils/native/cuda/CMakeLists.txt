@@ -3,7 +3,9 @@ target_sources(
 
     PRIVATE
     memory.cpp
-    memory.cu
+    kernels/memory.cu
+    kernels/compare.cu
+    kernels/random_fill.cu
 )
 
 target_link_libraries(mokeutils PUBLIC CUDA::cuda_driver)
