@@ -3,6 +3,8 @@
 
 #if defined MOKE_PLATFORM_CUDA
 #include <cuda_runtime.h>
+#elif defined MOKE_PLATFORM_HIP
+#include <hip/hip_runtime.h>
 #endif
 
 namespace moke {
