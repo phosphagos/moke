@@ -13,3 +13,4 @@ macro(moke_add_test test_name)
 endmacro()
 
 add_subdirectory(unit_test)
+add_subdirectory(perf_test)
