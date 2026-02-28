@@ -1,7 +1,7 @@
 #include "testing_utils.hpp"
 #include <gtest/gtest.h>
 
-using dtypes = moke::type_tuple<float, double, half_t, bfloat16_t>;
+using dtypes = moke::type_tuple<float, double, moke::half_t, moke::bfloat16_t>;
 constexpr size_t length = 128;
 
 template <class T> class TestAlgorithm : public testing::Test {};
