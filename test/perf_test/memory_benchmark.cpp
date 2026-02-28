@@ -1,6 +1,5 @@
 #include "testing_utils.hpp"
 #include <gtest/gtest.h>
-#include <moke/moke.hpp>
 
 using namespace moke;
 

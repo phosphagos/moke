@@ -1,6 +1,8 @@
 #pragma once
-#include <moke/moke.hpp>
+#include <moke/common.hpp>
 #include <moke/mokeutils.hpp>
+#include <moke/runtime.hpp>
+#include <moke/type_traits.hpp>
 #include <gtest/gtest.h>
 
 #define ASSERT_IN(VALUE, LOWER, UPPER) \

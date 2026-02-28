@@ -1,5 +1,4 @@
 #include "testing_utils.hpp"
-#include <moke/moke.hpp>
 #include <gtest/gtest.h>
 
 using dtypes = moke::type_tuple<float, double, half_t, bfloat16_t>;
