@@ -27,7 +27,7 @@ MOKE_KERNEL void fill_random_kernel(T *dest, size_t length, float min, float max
 
     if (tid < length) { curand_init(seed, tid, 0, &state); }
     for (auto i = tid; i < length; i += tno) {
-        dest[tid] = random_uniform<T>(state, alpha, beta);
+        dest[i] = random_uniform<T>(state, alpha, beta);
     }
 }
 
@@ -63,8 +63,7 @@ MOKE_KERNEL void fill_random_kernel(T *dest, size_t length, float min, float max
 
     if (tid < length) { curand_init(seed, tid, 0, &state); }
     for (auto i = tid; i < length; i += tno) {
-        auto rnd = random_uniform<T>(state, alpha, beta, bits);
-        dest[tid] = rnd;
+        dest[i] = random_uniform<T>(state, alpha, beta, bits);
     }
 }
 

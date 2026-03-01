@@ -31,11 +31,13 @@ TYPED_TEST(TestFunctional, TestFillRandom) {
     auto vec0 = vector(length) | fill::random();
     auto vec1 = vector(length) | fill::random(128);
     auto vec2 = vector(length) | fill::random{-1, 1};
-    host_vector hvec0{vec0}, hvec1{vec1}, hvec2{vec2};
+    auto vec3 = vector(length) | fill::random{32, 128};
+    host_vector hvec0{vec0}, hvec1{vec1}, hvec2{vec2}, hvec3{vec3};
 
     for (int i = 0; i < length; i++) { ASSERT_IN(hvec0[i], dtype(0.0), dtype(1.0)); }
     for (int i = 0; i < length; i++) { ASSERT_IN(hvec1[i], dtype(0.0), dtype(128.0)); }
     for (int i = 0; i < length; i++) { ASSERT_IN(hvec2[i], dtype(-1.0), dtype(1.0)); }
+    for (int i = 0; i < length; i++) { ASSERT_IN(hvec3[i], dtype(32.0), dtype(128.0)); }
 }
 
 TYPED_TEST(TestFunctional, TestFillRandomWithBits) {
