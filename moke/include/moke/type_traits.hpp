@@ -89,6 +89,11 @@ namespace traits {
     struct product<Left, Right, Rests...> {
         using type = typename product<typename product<Left, Right>::type, Rests...>::type;
     };
+
+    template <template <class ...> class U, class V> struct convert;
+
+    template <template <class ...> class U, template <class ...> class V, class ...Ts>
+    struct convert<U, V<Ts...>> { using type = U<Ts...>; };
 } // namespace traits
 
 template <class Left, class Right>
@@ -96,4 +101,7 @@ using concat_t = typename traits::concat<Left, Right>::type;
 
 template <class... Lists>
 using product_t = typename traits::product<Lists...>::type;
+
+template <template <class ...> class U, class V>
+using convert_t = typename traits::convert<U, V>::type;
 } // namespace moke
