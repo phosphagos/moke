@@ -1,6 +1,4 @@
 #pragma once
-#include <cstddef>
-#include <cstdint>
 
 #if defined __CUDACC__ || defined __HIPCC__
 #define MOKE_UNIFIED __host__ __device__
@@ -17,8 +15,4 @@
 #define MOKE_INLINE MOKE_UNIFIED inline
 #define MOKE_CONSTEXPR MOKE_INLINE constexpr
 #define MOKE_CAPI extern "C"
-
-namespace moke {
-using size_t = std::size_t;
-using index_t = std::int64_t;
-} // namespace moke
+#define MOKE_UNROLL _Pragma("unroll")

@@ -1,5 +1,6 @@
 #pragma once
 #include "moke/common.hpp"
+#include "moke/dtype.hpp"
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>

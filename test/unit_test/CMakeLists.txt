@@ -1,4 +1,10 @@
 moke_add_test(
+    test_moke_tensor
+    tensor/test_layout.cpp
+    tensor/test_tensor.cpp
+)
+
+moke_add_test(
     test_moke_native
     native/test_memory.cpp
     native/test_algorithm.cpp
