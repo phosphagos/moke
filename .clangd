@@ -2,7 +2,24 @@ Diagnostics:
   UnusedIncludes: None
 ---
 If:
-  PathMatch: [.*\.(cpp|hpp|h|cu|cuh|hip)]
+  PathMatch: .*\.(hpp|h)$
+CompileFlags:
+  Compiler: clang++
+  Remove:
+    - -x
+    - -x=*
+    - --cuda*
+    - --offload-arch=*
+    - -forward-unknown-to-host-compiler
+    - --generate-code=*
+    - -rdc=*
+    - -gopt
+  Add:
+    - -xc++
+    - -std=c++20
+---
+If:
+  PathMatch: .*\.(cpp|hpp|h|cu|cuh|hip)$
 CompileFlags:
   Add:
     - -std=c++20
