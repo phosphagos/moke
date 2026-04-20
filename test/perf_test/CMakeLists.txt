@@ -3,3 +3,7 @@ moke_add_test(
     memory_benchmark.cpp
     random_benchmark.cpp
 )
+
+if (MOKE_PLATFORM STREQUAL cuda)
+    add_subdirectory(tensor_benchmark)
+endif ()
