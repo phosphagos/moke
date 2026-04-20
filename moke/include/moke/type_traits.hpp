@@ -3,9 +3,12 @@
 
 namespace moke {
 template <auto N>
-using constant = std::integral_constant<std::decay_t<decltype(N)>, N>;
+struct C : std::integral_constant<std::remove_cvref_t<decltype(N)>, N> {};
 
-template <auto N> using C = constant<N>;
+constexpr auto TRUE = C<true>{};
+constexpr auto FALSE = C<false>{};
+
+template <auto N> using constant = C<N>;
 
 template <class... Ts> struct type_tuple {
     constexpr static int size = sizeof...(Ts);

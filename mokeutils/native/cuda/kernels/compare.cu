@@ -18,7 +18,7 @@ MOKE_KERNEL void compare_all_close_kernel(int *equal, T const *lhs, T const *rhs
 }
 
 template <class T, bool REL>
-bool compare_all_close(device_memory_t, const T *lhs, const T *rhs, size_t length, std::bool_constant<REL>, float epsilon) {
+bool compare_all_close(device_memory_t, const T *lhs, const T *rhs, size_t length, C<REL>, float epsilon) {
     constexpr auto compare_func = REL ? relative_close<T> : absolute_close<T>;
 
     int hres[1] = {1};
@@ -36,8 +36,8 @@ bool compare_all_close(device_memory_t, const T *lhs, const T *rhs, size_t lengt
 }
 
 #define DEVICE_COMPARE_ALL_CLOSE(T)                                                                        \
-    template bool compare_all_close(device_memory_t, const T *, const T *, size_t, std::true_type, float); \
-    template bool compare_all_close(device_memory_t, const T *, const T *, size_t, std::false_type, float);
+    template bool compare_all_close(device_memory_t, const T *, const T *, size_t, C<true>, float); \
+    template bool compare_all_close(device_memory_t, const T *, const T *, size_t, C<false>, float);
 
 DEVICE_COMPARE_ALL_CLOSE(float);
 DEVICE_COMPARE_ALL_CLOSE(double);

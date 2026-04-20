@@ -34,17 +34,17 @@ TYPED_TEST(TestAlgorithm, TestCompareClose) {
     moke::memory_set(memory_space, vec0.data(), 1.0, length);
     moke::memory_set(memory_space, vec1.data(), 1.4, length);
     EXPECT_FALSE(moke::memory_compare(memory_space, vec0.data(), vec1.data(), length));
-    EXPECT_TRUE(moke::compare_all_close(memory_space, vec0.data(), vec1.data(), length, std::false_type{}, 0.5));
-    EXPECT_TRUE(moke::compare_all_close(memory_space, vec0.data(), vec1.data(), length, std::true_type{}, 0.5));
+    EXPECT_TRUE(moke::compare_all_close(memory_space, vec0.data(), vec1.data(), length, moke::FALSE, 0.5));
+    EXPECT_TRUE(moke::compare_all_close(memory_space, vec0.data(), vec1.data(), length, moke::TRUE, 0.5));
 
     moke::memory_set(memory_space, vec0.data(), 10.0, length);
     moke::memory_set(memory_space, vec1.data(), 14.0, length);
     EXPECT_FALSE(moke::memory_compare(memory_space, vec0.data(), vec1.data(), length));
-    EXPECT_FALSE(moke::compare_all_close(memory_space, vec0.data(), vec1.data(), length, std::false_type{}, 0.5));
-    EXPECT_TRUE(moke::compare_all_close(memory_space, vec0.data(), vec1.data(), length, std::true_type{}, 0.5));
+    EXPECT_FALSE(moke::compare_all_close(memory_space, vec0.data(), vec1.data(), length, moke::FALSE, 0.5));
+    EXPECT_TRUE(moke::compare_all_close(memory_space, vec0.data(), vec1.data(), length, moke::TRUE, 0.5));
 
     moke::memory_set(memory_space, vec1.data(), 4.0, length);
     EXPECT_FALSE(moke::memory_compare(memory_space, vec0.data(), vec1.data(), length));
-    EXPECT_FALSE(moke::compare_all_close(memory_space, vec0.data(), vec1.data(), length, std::false_type{}, 0.5));
-    EXPECT_FALSE(moke::compare_all_close(memory_space, vec0.data(), vec1.data(), length, std::true_type{}, 0.5));
+    EXPECT_FALSE(moke::compare_all_close(memory_space, vec0.data(), vec1.data(), length, moke::FALSE, 0.5));
+    EXPECT_FALSE(moke::compare_all_close(memory_space, vec0.data(), vec1.data(), length, moke::TRUE, 0.5));
 }
