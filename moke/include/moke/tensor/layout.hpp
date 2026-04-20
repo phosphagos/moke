@@ -1,6 +1,7 @@
 #pragma once
 #include "moke/common.hpp"
 #include "moke/dtype.hpp"
+#include "moke/type_traits.hpp"
 #include <concepts>
 
 namespace moke {
@@ -32,7 +33,7 @@ public:
 
     MOKE_INLINE size_t operator()(std::integral auto... coord) const noexcept {
         static_assert((sizeof...(coord) <= RANK));
-        return operator()({int(coord)...});
+        return offset_of(coord...);
     }
 
     MOKE_INLINE size_t size() const noexcept { return m_shape[0] * m_stride[0]; }
@@ -48,6 +49,16 @@ public:
 private:
     // compute stride of continuous layout with given shape
     MOKE_INLINE void shape_to_stride() noexcept;
+
+    template <int IDX = 0>
+    MOKE_CONSTEXPR size_t offset_of(const std::integral auto &coord) const noexcept {
+        return IDX == RANK - 1 ? coord : coord * m_stride[IDX];
+    }
+
+    template <int IDX = 0>
+    MOKE_CONSTEXPR size_t offset_of(const std::integral auto &coord, const std::integral auto &...coords) const noexcept {
+        return coord * m_stride[IDX] + offset_of<IDX + 1>(coords...);
+    }
 };
 
 template <std::integral... Shape>

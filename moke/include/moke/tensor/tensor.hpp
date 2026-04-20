@@ -15,6 +15,9 @@ public:
     MOKE_INLINE tensor(T *data, array_ref<int, RANK> shape) noexcept
             : m_data{data}, m_layout{shape} {}
 
+    MOKE_INLINE tensor(T *data, const std::integral auto &...shape) noexcept
+            : m_data{data}, m_layout{shape...} {}
+
     MOKE_INLINE auto rank() const noexcept { return RANK; }
 
     MOKE_INLINE auto size() const noexcept { return m_layout.size(); }
@@ -37,8 +40,26 @@ public:
     template <int N> requires(N < RANK)
     MOKE_INLINE T *operator[](array_ref<int, N> coord) noexcept { return m_data + m_layout(coord); }
 
+    template <std::integral ...Coord> requires(sizeof...(Coord) < RANK)
+    MOKE_INLINE const T *operator()(const Coord &...coord) const noexcept { return m_data + m_layout(coord...); }
+
+    template <std::integral... Coord> requires(sizeof...(Coord) < RANK)
+    MOKE_INLINE T *operator()(const Coord &...coord) noexcept { return m_data + m_layout(coord...); }
+
     MOKE_INLINE const T &operator[](array_ref<int, RANK> coord) const noexcept { return m_data[m_layout(coord)]; }
 
     MOKE_INLINE T &operator[](array_ref<int, RANK> coord) noexcept { return m_data[m_layout(coord)]; }
+
+    template <std::integral... Coord> requires(sizeof...(Coord) == RANK)
+    MOKE_INLINE const T &operator()(const Coord &...coord) const noexcept { return m_data[m_layout(coord...)]; }
+
+    template <std::integral... Coord> requires(sizeof...(Coord) == RANK)
+    MOKE_INLINE T &operator()(const Coord &...coord) noexcept { return m_data[m_layout(coord...)]; }
 };
+
+template <class T, int RANK>
+tensor(T *data, const int (&shape)[RANK]) -> tensor<T, RANK>;
+
+template <class T, std::integral... Shape>
+tensor(T *data, const Shape &...) -> tensor<T, sizeof...(Shape)>;
 } // namespace moke

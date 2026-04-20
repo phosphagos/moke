@@ -14,9 +14,9 @@ __global__ void matmul_indexing_tensor(tensor<const dtype, 2> a, tensor<const dt
 
     dtype accumulate = 0;
     for (int k = 0; k < K; k++) {
-        accumulate += dtype(a[{m, k}] * b[{n, k}]);
+        accumulate += dtype(a(m, k) * b(n, k));
     }
-    d[{m, n}] = accumulate;
+    d(m, n) = accumulate;
 }
 } // namespace moke::ops::kernel
 
@@ -25,7 +25,7 @@ template <class dtype>
 void matmul_indexing_tensor(const dtype *a, const dtype *b, dtype *d, int M, int N, int K) {
     const dim3 nthreads{32, 32};
     const dim3 nblocks{unsigned(N + 31) / 32, unsigned(M + 31) / 32};
-    kernel::matmul_indexing_tensor<<<nblocks, nthreads>>>(tensor{a, {M, K}}, tensor{b, {N, K}}, tensor{d, {M, N}});
+    kernel::matmul_indexing_tensor<<<nblocks, nthreads>>>(tensor{a, M, K}, tensor{b, N, K}, tensor{d, M, N});
 }
 
 template void matmul_indexing_tensor(const float *, const float *, float *, int, int, int);
