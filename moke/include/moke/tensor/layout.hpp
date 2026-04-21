@@ -45,12 +45,12 @@ public:
 private:
     template <int IDX = 0>
     MOKE_CONSTEXPR size_t offset_of(const std::integral auto &coord) const noexcept {
-        return IDX == RANK - 1 ? coord : coord * m_stride[IDX];
+        return IDX == RANK - 1 ? coord : (size_t)coord * m_stride[IDX];
     }
 
     template <int IDX = 0>
     MOKE_CONSTEXPR size_t offset_of(const std::integral auto &coord, const std::integral auto &...coords) const noexcept {
-        return coord * m_stride[IDX] + offset_of<IDX + 1>(coords...);
+        return (size_t)coord * m_stride[IDX] + offset_of<IDX + 1>(coords...);
     }
 
     MOKE_INLINE void shape_to_stride() noexcept {
