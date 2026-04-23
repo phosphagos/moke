@@ -3,7 +3,7 @@
 #include <moke/dtype.hpp>
 #include <moke/mokeutils.hpp>
 #include <moke/runtime.hpp>
-#include <moke/type_traits.hpp>
+#include <moke/meta.hpp>
 #include <gtest/gtest.h>
 
 #define ASSERT_IN(VALUE, LOWER, UPPER) \

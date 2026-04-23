@@ -2,9 +2,13 @@
 #include <type_traits>
 
 namespace moke {
+// compile-time constant
 template <auto N>
 struct C : std::integral_constant<std::remove_cvref_t<decltype(N)>, N> {};
 
+// compile-time constant type and value for bool (true/false)
+using true_t = C<true>;
+using false_t = C<false>;
 constexpr auto TRUE = C<true>{};
 constexpr auto FALSE = C<false>{};
 
@@ -14,10 +18,10 @@ template <class... Ts> struct type_tuple {
     constexpr static int size = sizeof...(Ts);
 };
 
-template <int... Ns>
+template <auto... Ns>
 using constant_tuple = type_tuple<constant<Ns>...>;
 
-namespace traits {
+namespace meta {
     template <class T, int Idx> struct get;
 
     template <template <class...> class TypePack, class T, class... Ts, int Idx>
@@ -36,18 +40,18 @@ namespace traits {
     struct get<TypePack<>, Idx> {
         static_assert(Idx >= 0, "Idx out of range");
     };
-} // namespace traits
+} // namespace meta
 
 template <class T, int Idx>
-using get = traits::get<T, Idx>;
+using get = meta::get<T, Idx>;
 
 template <class T, int Idx>
-using get_type = typename traits::get<T, Idx>::type;
+using get_type = typename meta::get<T, Idx>::type;
 
 template <class T, int Idx>
-constexpr auto get_value = traits::get<T, Idx>::value;
+constexpr auto get_value = meta::get<T, Idx>::value;
 
-namespace traits {
+namespace meta {
     template <class T1, class T2>
     struct concat;
 
@@ -97,14 +101,14 @@ namespace traits {
 
     template <template <class ...> class U, template <class ...> class V, class ...Ts>
     struct convert<U, V<Ts...>> { using type = U<Ts...>; };
-} // namespace traits
+} // namespace meta
 
 template <class Left, class Right>
-using concat_t = typename traits::concat<Left, Right>::type;
+using concat_t = typename meta::concat<Left, Right>::type;
 
 template <class... Lists>
-using product_t = typename traits::product<Lists...>::type;
+using product_t = typename meta::product<Lists...>::type;
 
 template <template <class ...> class U, class V>
-using convert_t = typename traits::convert<U, V>::type;
+using convert_t = typename meta::convert<U, V>::type;
 } // namespace moke

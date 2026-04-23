@@ -1,4 +1,4 @@
-#include "moke/tensor/tensor.hpp"
+#include "moke/tensor.hpp"
 #include "matmul.hpp"
 
 namespace moke::ops::kernel {

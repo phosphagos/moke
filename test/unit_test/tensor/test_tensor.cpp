@@ -1,5 +1,5 @@
 #include <moke/mokeutils.hpp>
-#include <moke/tensor/tensor.hpp>
+#include <moke/tensor.hpp>
 #include <gtest/gtest.h>
 
 TEST(TestTensor, TestMatmul) {

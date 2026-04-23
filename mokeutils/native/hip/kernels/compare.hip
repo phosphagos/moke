@@ -1,6 +1,6 @@
 #include "moke/native.hpp"
 #include "moke/runtime.hpp"
-#include "moke/type_traits.hpp"
+#include "moke/meta.hpp"
 
 #include <hip/hip_fp16.h>
 #include <hip/hip_bf16.h>
