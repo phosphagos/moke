@@ -15,7 +15,7 @@ __global__ void matmul_indexing_mdspan(mdspan<const dtype, extent> a, mdspan<con
 
     dtype accumulate = 0;
     for (int k = 0; k < K; k++) {
-        accumulate += dtype(a(m, k) * b(n, k));
+        accumulate += dtype(a(m, k) * b(k, n));
     }
     d(m, n) = accumulate;
 }
@@ -26,7 +26,7 @@ template <class dtype>
 void matmul_indexing_mdspan(const dtype *a, const dtype *b, dtype *d, int M, int N, int K) {
     const dim3 nthreads{32, 32};
     const dim3 nblocks{unsigned(N + 31) / 32, unsigned(M + 31) / 32};
-    kernel::matmul_indexing_mdspan<<<nblocks, nthreads>>>(mdspan{a, M, K}, mdspan{b, N, K}, mdspan{d, M, N});
+    kernel::matmul_indexing_mdspan<<<nblocks, nthreads>>>(mdspan{a, M, K}, mdspan{b, K, N}, mdspan{d, M, N});
 }
 
 template void matmul_indexing_mdspan(const float *, const float *, float *, int, int, int);

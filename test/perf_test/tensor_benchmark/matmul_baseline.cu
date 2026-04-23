@@ -9,7 +9,7 @@ __global__ void matmul_baseline(const dtype *a, const dtype *b, dtype *d, int M,
 
     dtype accumulate = 0;
     for (int k = 0; k < K; k++) {
-        accumulate += dtype(a[m * K + k] * b[n * K + k]);
+        accumulate += dtype(a[m * K + k] * b[k * N + n]);
     }
     d[m * N + n] = accumulate;
 }

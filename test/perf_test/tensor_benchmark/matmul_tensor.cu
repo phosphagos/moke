@@ -8,13 +8,13 @@ __global__ void matmul_indexing_tensor(tensor<const dtype, 2> a, tensor<const dt
     const auto N = d.shape(1);
     const auto K = a.shape(1);
 
-    const int m = blockIdx.y * blockDim.y + threadIdx.y;
-    const int n = blockIdx.x * blockDim.x + threadIdx.x;
+    const auto m = blockIdx.y * blockDim.y + threadIdx.y;
+    const auto n = blockIdx.x * blockDim.x + threadIdx.x;
     if (m >= M || n >= N) { return; }
 
     dtype accumulate = 0;
     for (int k = 0; k < K; k++) {
-        accumulate += dtype(a(m, k) * b(n, k));
+        accumulate += dtype(a(m, k) * b(k, n));
     }
     d(m, n) = accumulate;
 }
@@ -25,7 +25,7 @@ template <class dtype>
 void matmul_indexing_tensor(const dtype *a, const dtype *b, dtype *d, int M, int N, int K) {
     const dim3 nthreads{32, 32};
     const dim3 nblocks{unsigned(N + 31) / 32, unsigned(M + 31) / 32};
-    kernel::matmul_indexing_tensor<<<nblocks, nthreads>>>(tensor{a, M, K}, tensor{b, N, K}, tensor{d, M, N});
+    kernel::matmul_indexing_tensor<<<nblocks, nthreads>>>(tensor{a, M, K}, tensor{b, K, N}, tensor{d, M, N});
 }
 
 template void matmul_indexing_tensor(const float *, const float *, float *, int, int, int);
