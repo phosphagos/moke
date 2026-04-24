@@ -26,13 +26,11 @@ namespace meta {
 
     template <template <class...> class TypePack, class T, class... Ts, int Idx>
     struct get<TypePack<T, Ts...>, Idx> {
-        constexpr static int value = get<TypePack<Ts...>, Idx - 1>::value;
         using type = typename get<TypePack<Ts...>, Idx - 1>::type;
     };
 
     template <template <class...> class TypePack, class T, class... Ts>
     struct get<TypePack<T, Ts...>, 0> {
-        constexpr static int value = T::value;
         using type = T;
     };
 
@@ -49,7 +47,7 @@ template <class T, int Idx>
 using get_type = typename meta::get<T, Idx>::type;
 
 template <class T, int Idx>
-constexpr auto get_value = meta::get<T, Idx>::value;
+constexpr auto get_value = meta::get<T, Idx>::type::value;
 
 namespace meta {
     template <class T1, class T2>
