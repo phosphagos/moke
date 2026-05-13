@@ -4,6 +4,4 @@ moke_add_test(
     random_benchmark.cpp
 )
 
-if (MOKE_PLATFORM STREQUAL cuda)
-    add_subdirectory(tensor_benchmark)
-endif ()
+add_subdirectory(tensor_benchmark/${MOKE_PLATFORM})
