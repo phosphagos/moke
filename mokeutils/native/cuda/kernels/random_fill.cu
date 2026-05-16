@@ -42,6 +42,7 @@ template <class T>
 MOKE_DEVICE T random_uniform(curandState_t &state, float alpha, float beta, uint8_t bits) {
     float res = curand_uniform(&state);
     res = std::round(res * (1 << bits)) / (1 << bits);
+    res = res * alpha + beta;
     return res;
 }
 
@@ -49,6 +50,7 @@ template <>
 MOKE_DEVICE double random_uniform<double>(curandState_t &state, float alpha, float beta, uint8_t bits) {
     double res = curand_uniform(&state);
     res = std::round(res * (1 << bits)) / (1 << bits);
+    res = res * alpha + beta;
     return res;
 }
 
