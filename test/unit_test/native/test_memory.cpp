@@ -10,8 +10,8 @@ using TestMemoryParams = test::GTestProduction<memory_spaces, dtypes>;
 TYPED_TEST_SUITE(TestMemory, TestMemoryParams);
 
 TYPED_TEST(TestMemory, TestMalloc) {
-    using memory_space_t = get_type<TypeParam, 0>;
-    using dtype = get_type<TypeParam, 1>;
+    using memory_space_t = get_t<TypeParam, 0>;
+    using dtype = get_t<TypeParam, 1>;
 
     auto buffer = memory_alloc<dtype>(memory_space_t{}, length);
     EXPECT_TRUE(buffer);
@@ -19,8 +19,8 @@ TYPED_TEST(TestMemory, TestMalloc) {
 }
 
 TYPED_TEST(TestMemory, TestMemorySet) {
-    using memory_space_t = get_type<TypeParam, 0>;
-    using dtype = get_type<TypeParam, 1>;
+    using memory_space_t = get_t<TypeParam, 0>;
+    using dtype = get_t<TypeParam, 1>;
 
     constexpr memory_space_t memory_space{};
     constexpr float value{1};
@@ -37,8 +37,8 @@ TYPED_TEST(TestMemory, TestMemorySet) {
 }
 
 TYPED_TEST(TestMemory, TestMemoryCompare) {
-    using memory_space_t = moke::get_type<TypeParam, 0>;
-    using dtype = moke::get_type<TypeParam, 1>;
+    using memory_space_t = moke::get_t<TypeParam, 0>;
+    using dtype = moke::get_t<TypeParam, 1>;
 
     constexpr memory_space_t memory_space{};
     auto buf0 = memory_alloc<dtype>(memory_space, length);
@@ -66,9 +66,9 @@ using TestMemoryCopyParams = test::GTestProduction<memory_spaces, memory_spaces,
 TYPED_TEST_SUITE(TestMemoryCopy, TestMemoryCopyParams);
 
 TYPED_TEST(TestMemoryCopy, TestMemoryCopy) {
-    using src_memory_t = get_type<TypeParam, 0>;
-    using dest_memory_t = get_type<TypeParam, 1>;
-    using dtype = get_type<TypeParam, 2>;
+    using src_memory_t = get_t<TypeParam, 0>;
+    using dest_memory_t = get_t<TypeParam, 1>;
+    using dtype = get_t<TypeParam, 2>;
 
     constexpr src_memory_t src_memory{};
     constexpr dest_memory_t dest_memory{};

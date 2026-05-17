@@ -13,10 +13,10 @@ using test_params = moke::convert_t<testing::Types, moke::product_t<dtypes, shap
 TYPED_TEST_SUITE(MatmulBenchmark, test_params);
 
 TYPED_TEST(MatmulBenchmark, AccuVerification) {
-    using dtype = moke::get_type<TypeParam, 0>;
-    constexpr int M = moke::get_value<TypeParam, 1>;
-    constexpr int N = moke::get_value<TypeParam, 1>;
-    constexpr int K = moke::get_value<TypeParam, 2>;
+    using dtype = moke::get_t<TypeParam, 0>;
+    constexpr int M = moke::get_value<TypeParam, 1>();
+    constexpr int N = moke::get_value<TypeParam, 1>();
+    constexpr int K = moke::get_value<TypeParam, 2>();
     auto a_dev = moke::device_vector<dtype>(M * K) | moke::fill::random{}.seed(0);
     auto b_dev = moke::device_vector<dtype>(N * K) | moke::fill::random{}.seed(1);
     auto d_dev = moke::device_vector<dtype>(M * N) | moke::fill::constant(0.0f);
@@ -33,10 +33,10 @@ TYPED_TEST(MatmulBenchmark, AccuVerification) {
 static int n_fallbacks = 0;
 
 TYPED_TEST(MatmulBenchmark, PerfBenchmark) {
-    using dtype = moke::get_type<TypeParam, 0>;
-    constexpr int M = moke::get_value<TypeParam, 1>;
-    constexpr int N = moke::get_value<TypeParam, 1>;
-    constexpr int K = moke::get_value<TypeParam, 2>;
+    using dtype = moke::get_t<TypeParam, 0>;
+    constexpr int M = moke::get_value<TypeParam, 1>();
+    constexpr int N = moke::get_value<TypeParam, 1>();
+    constexpr int K = moke::get_value<TypeParam, 2>();
     moke::device_profiler baseline_prof{100, 300};
     moke::device_profiler tensor_prof{100, 300};
     moke::device_profiler mdspan_prof{100, 300};

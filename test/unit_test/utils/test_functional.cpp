@@ -10,8 +10,8 @@ using TestFunctionalParams = moke::test::GTestProduction<memory_spaces, dtypes>;
 TYPED_TEST_SUITE(TestFunctional, TestFunctionalParams);
 
 TYPED_TEST(TestFunctional, TestFillConstant) {
-    using memory_space_t = moke::get_type<TypeParam, 0>;
-    using dtype = moke::get_type<TypeParam, 1>;
+    using memory_space_t = moke::get_t<TypeParam, 0>;
+    using dtype = moke::get_t<TypeParam, 1>;
     using vector = moke::vector<dtype, memory_space_t>;
     using host_vector = moke::host_vector<dtype>;
 
@@ -23,8 +23,8 @@ TYPED_TEST(TestFunctional, TestFillConstant) {
 }
 
 TYPED_TEST(TestFunctional, TestFillRandom) {
-    using memory_space_t = moke::get_type<TypeParam, 0>;
-    using dtype = moke::get_type<TypeParam, 1>;
+    using memory_space_t = moke::get_t<TypeParam, 0>;
+    using dtype = moke::get_t<TypeParam, 1>;
     using vector = moke::vector<dtype, memory_space_t>;
     using host_vector = moke::host_vector<dtype>;
 
@@ -41,8 +41,8 @@ TYPED_TEST(TestFunctional, TestFillRandom) {
 }
 
 TYPED_TEST(TestFunctional, TestFillRandomWithBits) {
-    using memory_space_t = moke::get_type<TypeParam, 0>;
-    using dtype = moke::get_type<TypeParam, 1>;
+    using memory_space_t = moke::get_t<TypeParam, 0>;
+    using dtype = moke::get_t<TypeParam, 1>;
     using vector = moke::vector<dtype, memory_space_t>;
     using host_vector = moke::host_vector<dtype>;
 
@@ -59,9 +59,9 @@ TYPED_TEST(TestFunctional, TestFillRandomWithBits) {
 }
 
 TYPED_TEST(TestFunctional, TestCompare) {
-    using memory_space_t = moke::get_type<TypeParam, 0>;
+    using memory_space_t = moke::get_t<TypeParam, 0>;
     constexpr memory_space_t memory_space{};
-    using dtype = moke::get_type<TypeParam, 1>;
+    using dtype = moke::get_t<TypeParam, 1>;
     using vector = moke::vector<dtype, memory_space_t>;
 
     vector vec0(length), vec1(length);

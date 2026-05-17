@@ -9,9 +9,9 @@ using TestAlgorithmParams = moke::test::GTestProduction<memory_spaces, dtypes>;
 TYPED_TEST_SUITE(TestAlgorithm, TestAlgorithmParams);
 
 TYPED_TEST(TestAlgorithm, TestFillRandom) {
-    using memory_space_t = moke::get_type<TypeParam, 0>;
+    using memory_space_t = moke::get_t<TypeParam, 0>;
     constexpr memory_space_t memory_space{};
-    using dtype = moke::get_type<TypeParam, 1>;
+    using dtype = moke::get_t<TypeParam, 1>;
     using vector = moke::vector<dtype, memory_space_t>;
     using host_vector = moke::host_vector<dtype>;
 
@@ -23,9 +23,9 @@ TYPED_TEST(TestAlgorithm, TestFillRandom) {
 }
 
 TYPED_TEST(TestAlgorithm, TestCompareClose) {
-    using memory_space_t = moke::get_type<TypeParam, 0>;
+    using memory_space_t = moke::get_t<TypeParam, 0>;
     constexpr memory_space_t memory_space{};
-    using dtype = moke::get_type<TypeParam, 1>;
+    using dtype = moke::get_t<TypeParam, 1>;
     using vector = moke::vector<dtype, memory_space_t>;
 
     vector vec0(length), vec1(length);
