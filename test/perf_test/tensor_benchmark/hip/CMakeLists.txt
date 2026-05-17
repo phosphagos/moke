@@ -1,6 +1,7 @@
-moke_add_test(
-    moke_tensor_perf_benchmark
+target_sources(
+    moke_perf_benchmark
 
+    PRIVATE
     matmul_benchmark.cpp
     matmul_baseline.hip
     matmul_tensor.hip
