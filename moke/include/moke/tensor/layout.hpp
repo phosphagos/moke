@@ -1,13 +1,11 @@
 #pragma once
+#include "moke/arithmetic.hpp"
 #include "moke/common.hpp"
 #include "moke/dtype.hpp"
 #include "moke/meta.hpp"
 #include <concepts>
 
 namespace moke {
-template <class T, size_t N>
-using array_ref = const T (&)[N];
-
 template <int RANK>
 class layout {
 private:

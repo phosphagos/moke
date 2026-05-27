@@ -14,5 +14,6 @@
 
 #define MOKE_INLINE MOKE_UNIFIED inline
 #define MOKE_CONSTEXPR MOKE_INLINE constexpr
+#define MOKE_CONSTEVAL MOKE_INLINE consteval
 #define MOKE_CAPI extern "C"
 #define MOKE_UNROLL _Pragma("unroll")
