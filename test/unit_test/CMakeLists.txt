@@ -1,12 +1,7 @@
 moke_add_test(
     test_moke_core
     core/test_meta.cpp
-)
-
-moke_add_test(
-    test_moke_tensor
-    tensor/test_layout.cpp
-    tensor/test_tensor.cpp
+    core/test_tensor.cpp
 )
 
 moke_add_test(

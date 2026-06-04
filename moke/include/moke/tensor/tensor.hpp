@@ -1,6 +1,7 @@
 #pragma once
 #include "moke/common.hpp"
 #include "moke/tensor/layout.hpp"
+#include <type_traits>
 
 namespace moke {
 template <class T, int RANK>
@@ -10,6 +11,8 @@ private:
     layout<RANK> m_layout;
 
 public:
+    template <class, int> friend class tensor;
+
     MOKE_INLINE tensor() noexcept : m_data{nullptr}, m_layout{} {}
 
     template <class IDX_T>
@@ -18,6 +21,10 @@ public:
 
     MOKE_INLINE tensor(T *data, const std::integral auto &...shape) noexcept
             : m_data{data}, m_layout{shape...} {}
+
+    template <class U> requires(std::is_convertible_v<U *, T *>)
+    MOKE_INLINE tensor(const tensor<U, RANK> &other) noexcept
+            : m_data{other.m_data}, m_layout{other.m_layout} {}
 
     MOKE_INLINE auto rank() const noexcept { return RANK; }
 
@@ -31,21 +38,13 @@ public:
 
     MOKE_INLINE bool empty() const noexcept { return m_data == nullptr || m_layout.empty(); }
 
-    MOKE_INLINE T *data() noexcept { return m_data; }
-
-    MOKE_INLINE const T *data() const noexcept { return m_data; }
-
-    template <std::integral ...Coord> requires(sizeof...(Coord) < RANK)
-    MOKE_INLINE const T *operator()(const Coord &...coord) const noexcept { return m_data + m_layout(coord...); }
+    MOKE_INLINE T *data() const noexcept { return m_data; }
 
     template <std::integral... Coord> requires(sizeof...(Coord) < RANK)
-    MOKE_INLINE T *operator()(const Coord &...coord) noexcept { return m_data + m_layout(coord...); }
+    MOKE_INLINE T *operator()(const Coord &...coord) const noexcept { return m_data + m_layout(coord...); }
 
     template <std::integral... Coord> requires(sizeof...(Coord) == RANK)
-    MOKE_INLINE const T &operator()(const Coord &...coord) const noexcept { return m_data[m_layout(coord...)]; }
-
-    template <std::integral... Coord> requires(sizeof...(Coord) == RANK)
-    MOKE_INLINE T &operator()(const Coord &...coord) noexcept { return m_data[m_layout(coord...)]; }
+    MOKE_INLINE T &operator()(const Coord &...coord) const noexcept { return m_data[m_layout(coord...)]; }
 };
 
 template <class T, class Idx, int RANK>
