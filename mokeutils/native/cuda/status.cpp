@@ -3,37 +3,28 @@
 
 #include <cuda.h>
 #include <curand.h>
-#include <format>
 #include <iostream>
+#include <source_location>
 #include <stdexcept>
 
-#if __cplusplus >= 202302L
-#include <stacktrace>
-#define print_stacktrace(out) \
-    out << "stacktrace:\n";   \
-    out << std::stacktrace::current() << "\n";
-#else
-#define print_stacktrace(out)
-#endif
-
 namespace moke {
-template <> void check_status(CUresult status) {
+template <> void check_status(CUresult status, std::source_location location) {
     if (status == CUDA_SUCCESS) { return; }
     const char *errinfo{nullptr};
     if (cuGetErrorString(status, &errinfo) != CUDA_SUCCESS) { errinfo = "Invalid CUDA driver error"; }
-    auto errmsg = std::format("cuda driver error: {}", errinfo);
 
-    std::cerr << errmsg << "\n";
-    print_stacktrace(std::cerr);
-    throw std::runtime_error(std::move(errmsg));
+    std::fprintf(stderr, "cuda driver error: %s\n", errinfo);
+    std::fprintf(stderr, "    at %s\n", location.file_name());
+    std::fprintf(stderr, "    at %s:%d:%d\n", location.file_name(), location.line(), location.column());
+    throw std::runtime_error(errinfo);
 }
 
-template <> void check_status(curandStatus_t status) {
+template <> void check_status(curandStatus_t status, std::source_location location) {
     if (status == CURAND_STATUS_SUCCESS) { return; }
 
-    auto errmsg = std::format("curand error: error code {}", (int)status);
-    std::cerr << errmsg << "\n";
-    print_stacktrace(std::cerr);
-    throw std::runtime_error(std::move(errmsg));
+    std::fprintf(stderr, "curand error: error code %d", (int)status);
+    std::fprintf(stderr, "    at %s\n", location.file_name());
+    std::fprintf(stderr, "    at %s:%d:%d\n", location.file_name(), location.line(), location.column());
+    throw std::runtime_error("curand error");
 }
 } // namespace moke
