@@ -1,5 +1,5 @@
 #include "matmul.hpp"
-#include <moke/mokeutils.hpp>
+#include <moke/utils.hpp>
 #include <gtest/gtest.h>
 
 template <class T>
