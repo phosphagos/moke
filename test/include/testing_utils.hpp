@@ -1,8 +1,6 @@
 #pragma once
 #include <moke/common.hpp>
-#include <moke/dtype.hpp>
 #include <moke/mokeutils.hpp>
-#include <moke/runtime.hpp>
 #include <moke/meta.hpp>
 #include <gtest/gtest.h>
 

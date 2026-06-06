@@ -1,6 +1,4 @@
 #include "moke/common.hpp"
-#include "moke/runtime.hpp"
-
 #include <cuda_runtime_api.h>
 #include <iostream>
 #include <stdexcept>

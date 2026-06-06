@@ -1,8 +1,6 @@
 #pragma once
 #include "moke/common.hpp"
-#include "moke/dtype.hpp"
 #include "moke/meta.hpp"
-#include "moke/meta/constant.hpp"
 #include <climits>
 #include <utility>
 
@@ -75,8 +73,6 @@ MOKE_CONSTEVAL size_t bits_of(T = std::declval<T>()) { return sizeof(T) * CHAR_B
 //
 
 #if defined(MOKE_PLATFORM_CUDA) || defined(MOKE_PLATFORM_HIP)
-#include "moke/runtime.hpp"
-
 namespace moke {
 /// @brief create 1d coord of dim3(x)
 MOKE_CONSTEXPR dim3 make_dim3(auto x) { return dim3{uint(x)}; }

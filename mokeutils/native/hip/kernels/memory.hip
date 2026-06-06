@@ -1,5 +1,4 @@
 #include "moke/common.hpp"
-#include "moke/runtime.hpp"
 #include "moke/native/memory.hpp"
 
 namespace moke {

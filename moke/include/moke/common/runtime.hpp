@@ -1,5 +1,5 @@
 #pragma once
-#include "moke/common.hpp"
+#include "moke/common/macros.hpp"
 #include <source_location>
 
 #if defined MOKE_PLATFORM_CUDA

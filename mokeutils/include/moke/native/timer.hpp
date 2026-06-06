@@ -1,5 +1,5 @@
 #pragma once
-#include "moke/runtime.hpp"
+#include "moke/common.hpp"
 #include <chrono>
 #include <ratio>
 

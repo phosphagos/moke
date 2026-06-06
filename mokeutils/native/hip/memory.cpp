@@ -1,6 +1,5 @@
+#include "moke/common.hpp"
 #include "moke/native/memory.hpp"
-#include "moke/runtime.hpp"
-
 #include <hip/hip_runtime.h>
 
 namespace moke {

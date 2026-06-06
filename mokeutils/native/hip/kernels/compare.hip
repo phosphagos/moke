@@ -1,9 +1,6 @@
+#include "moke/common.hpp"
 #include "moke/native.hpp"
-#include "moke/runtime.hpp"
 #include "moke/meta.hpp"
-
-#include <hip/hip_fp16.h>
-#include <hip/hip_bf16.h>
 
 namespace moke {
 template <typename T, auto CompareFunc>

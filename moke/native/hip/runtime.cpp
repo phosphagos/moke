@@ -1,6 +1,4 @@
 #include "moke/common.hpp"
-#include "moke/runtime.hpp"
-
 #include <hip/hip_runtime.h>
 #include <iostream>
 #include <stdexcept>

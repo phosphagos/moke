@@ -1,7 +1,6 @@
 #pragma once
 #include "moke/arithmetic.hpp"
 #include "moke/common.hpp"
-#include "moke/dtype.hpp"
 #include "moke/meta.hpp"
 #include <concepts>
 

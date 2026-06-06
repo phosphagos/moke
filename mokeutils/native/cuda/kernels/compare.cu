@@ -1,9 +1,6 @@
-#include "moke/native.hpp"
-#include "moke/runtime.hpp"
+#include "moke/common.hpp"
 #include "moke/meta.hpp"
-
-#include <cuda_bf16.h>
-#include <cuda_fp16.h>
+#include "moke/native.hpp"
 
 namespace moke {
 template <typename T, auto CompareFunc>
