@@ -16,4 +16,5 @@ moke_add_test(
     utils/test_vector.cpp
     utils/test_functional.cpp
     utils/test_profiler.cpp
+    utils/test_meta_utils.cpp
 )

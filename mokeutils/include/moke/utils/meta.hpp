@@ -1,36 +1,8 @@
 #pragma once
-#include <type_traits>
+#include "moke/meta.hpp"
 
 namespace moke {
-template <class... Ts> struct type_tuple {
-    constexpr static int size = sizeof...(Ts);
-};
-
 namespace meta {
-    template <class T, int Idx> struct get;
-
-    template <template <class...> class TypePack, class T, class... Ts, int Idx>
-    struct get<TypePack<T, Ts...>, Idx> {
-        using type = typename get<TypePack<Ts...>, Idx - 1>::type;
-    };
-
-    template <template <class...> class TypePack, class T, class... Ts>
-    struct get<TypePack<T, Ts...>, 0> {
-        using type = T;
-    };
-
-    template <template <class...> class TypePack, int Idx>
-    struct get<TypePack<>, Idx> {
-        static_assert(Idx >= 0, "Idx out of range");
-    };
-
-    template <class T1, class T2>
-    struct concat;
-
-    template <template <class...> class TypePack, class... T1, class... Ts>
-    struct concat<TypePack<T1...>, TypePack<Ts...>> {
-        using type = TypePack<T1..., Ts...>;
-    };
 
     template <class T, class List> struct combine;
 
@@ -77,15 +49,9 @@ namespace meta {
     };
 } // namespace meta
 
-template <class T, int Idx>
-using get_t = typename meta::get<T, Idx>::type;
-
-template <class Left, class Right>
-using concat_t = typename meta::concat<Left, Right>::type;
-
 template <class... Lists>
 using product_t = typename meta::product<Lists...>::type;
 
-template <template <class ...> class U, class V>
+template <template <class...> class U, class V>
 using convert_t = typename meta::convert<U, V>::type;
 } // namespace moke
