@@ -2,3 +2,4 @@
 #include "moke/native/memory.hpp"
 #include "moke/native/algorithm.hpp"
 #include "moke/native/timer.hpp"
+#include "moke/native/status.hpp"

@@ -1,5 +1,5 @@
 #include "moke/common.hpp"
-#include "moke/native/memory.hpp"
+#include "moke/native.hpp"
 #include <cuda.h>
 #include <cuda_runtime.h>
 
