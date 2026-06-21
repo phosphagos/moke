@@ -52,6 +52,11 @@ public:
     MOKE_INLINE T &operator()(const Coord &...coord) const noexcept { return m_data[m_layout(coord...)]; }
 };
 
+///
+/// type alias and deducing hint for tensor, left_major_tensor and right_major_tensor
+/// such deducing hint is not available in CUDA due to a bug of nvcc
+///
+
 template <class T, std::integral... Shapes>
 basic_tensor(T *data, Shapes... shapes) -> basic_tensor<T, layout::right_major<sizeof...(Shapes)>>;
 
@@ -67,6 +72,10 @@ using right_major_tensor = basic_tensor<T, layout::right_major<RANK>>;
 template <class T, int RANK>
 using tensor = right_major_tensor<T, RANK>;
 
+///
+/// type casting utilities
+///
+
 template <class T, class U, class Layout> requires(std::is_convertible_v<U *, T *>)
 basic_tensor<T, Layout> tensor_cast(const basic_tensor<U, Layout> &tensor) {
     return basic_tensor<T, Layout>{tensor.data(), tensor.layout()};
@@ -75,5 +84,26 @@ basic_tensor<T, Layout> tensor_cast(const basic_tensor<U, Layout> &tensor) {
 template <class T, class Layout>
 basic_tensor<const T, Layout> tensor_cast(const basic_tensor<T, Layout> &tensor) {
     return tensor_cast<const T, T, Layout>(tensor);
+}
+
+///
+/// work-around maker functions for current cuda implementation
+///
+
+template <class T>
+inline auto make_left_major_tensor(T *data, std::integral auto... shapes) {
+    constexpr int rank = sizeof...(shapes);
+    return basic_tensor<T, layout::left_major<rank>>{data, shapes...};
+}
+
+template <class T>
+inline auto make_right_major_tensor(T *data, std::integral auto... shapes) {
+    constexpr int rank = sizeof...(shapes);
+    return basic_tensor<T, layout::right_major<rank>>{data, shapes...};
+}
+
+template <class T, std::integral... Shapes>
+inline auto make_tensor(T *data, Shapes... shapes) {
+    return make_right_major_tensor(data, shapes...);
 }
 } // namespace moke

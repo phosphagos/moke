@@ -25,7 +25,7 @@ template <class dtype>
 void matmul_indexing_tensor(const dtype *a, const dtype *b, dtype *d, int M, int N, int K) {
     const dim3 nthreads{32, 32};
     const dim3 nblocks{unsigned(N + 31) / 32, unsigned(M + 31) / 32};
-    kernel::matmul_indexing_tensor<<<nblocks, nthreads>>>(tensor{a, M, K}, tensor{b, K, N}, tensor{d, M, N});
+    kernel::matmul_indexing_tensor<<<nblocks, nthreads>>>(make_tensor(a, M, K), make_tensor(b, K, N), make_tensor(d, M, N));
 }
 
 template void matmul_indexing_tensor(const float *, const float *, float *, int, int, int);
