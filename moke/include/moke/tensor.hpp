@@ -39,6 +39,12 @@ public:
 
     MOKE_INLINE auto stride(int dim) const noexcept { return m_layout.m_stride[dim]; }
 
+    template <std::integral auto Dim>
+    MOKE_INLINE auto shape(C<Dim> = {}) const noexcept { return shape(Dim); }
+
+    template <std::integral auto Dim>
+    MOKE_INLINE auto stride(C<Dim> = {}) const noexcept { return stride(Dim); }
+
     MOKE_INLINE bool empty() const noexcept { return m_data == nullptr || m_layout.empty(); }
 
     MOKE_INLINE T *data() const noexcept { return m_data; }

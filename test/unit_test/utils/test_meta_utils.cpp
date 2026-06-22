@@ -3,6 +3,21 @@
 
 using namespace moke;
 
+TEST(TestMetaUtils, TestTypeTupleConcat) {
+    static_assert(std::same_as<
+                  concat_t<type_tuple<float, int>, type_tuple<char, double>>,
+                  type_tuple<float, int, char, double>>);
+    static_assert(std::same_as<
+                  concat_t<type_tuple<float, int>, char>,
+                  type_tuple<float, int, char>>);
+    static_assert(std::same_as<
+                  concat_t<type_tuple<>, type_tuple<int>>,
+                  type_tuple<int>>);
+    static_assert(std::same_as<
+                  concat_t<type_tuple<>, int>,
+                  type_tuple<int>>);
+}
+
 TEST(TestMetaUtils, TestTypeTupleProduct) {
     // 2x2 product
     using tuple_00 = type_tuple<float, int>;

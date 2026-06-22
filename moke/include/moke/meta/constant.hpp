@@ -1,6 +1,7 @@
 #pragma once
 #include "moke/common.hpp"
 #include <type_traits>
+#include <climits>
 
 namespace moke {
 // compile-time constant type

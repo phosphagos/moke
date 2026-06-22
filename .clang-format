@@ -11,7 +11,7 @@ AllowShortLoopsOnASingleLine: true
 AlwaysBreakBeforeMultilineStrings: false
 BreakAfterAttributes: Leave
 BreakArrays:     false
-BreakInheritanceList: AfterColon
+BreakInheritanceList: BeforeColon
 BreakTemplateDeclarations: Leave
 ColumnLimit:     0
 ConstructorInitializerIndentWidth: 8
