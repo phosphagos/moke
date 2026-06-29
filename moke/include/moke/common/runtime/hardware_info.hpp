@@ -10,6 +10,8 @@ namespace device {
     using hardware_info_t = cudaDeviceProp;
 #elif defined MOKE_PLATFORM_HIP
     using hardware_info_t = hipDeviceProp_t;
+#else
+    struct hardware_info_t{};
 #endif
 } // namespace device
 
