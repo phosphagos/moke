@@ -1,7 +1,10 @@
 #pragma once
 #include "moke/common/runtime.hpp"
+
+#ifdef MOKE_PLATFORM_CUDA
 #include <cuda.h>
 #include <curand.h>
+#endif
 
 namespace moke {
 #ifdef MOKE_PLATFORM_CUDA

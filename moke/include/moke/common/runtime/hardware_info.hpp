@@ -9,7 +9,7 @@ namespace device {
 #if defined MOKE_PLATFORM_CUDA
     using hardware_info_t = cudaDeviceProp;
 #elif defined MOKE_PLATFORM_HIP
-    using hardware_info_t = hipDeviceProp;
+    using hardware_info_t = hipDeviceProp_t;
 #endif
 } // namespace device
 
