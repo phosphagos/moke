@@ -5,9 +5,10 @@
 template <class T>
 struct MatmulBenchmark : testing::Test {};
 
+using moke::C;
 using dtypes = moke::type_tuple<float, moke::half_t, moke::bfloat16_t>;
-using shapes_mn = moke::constant_tuple<128, 256, 512, 1024>;
-using shapes_k = moke::constant_tuple<1024>;
+using shapes_mn = moke::type_tuple<C<128>, C<256>, C<512>, C<1024>>;
+using shapes_k = moke::type_tuple<C<1024>>;
 using test_params = moke::convert_t<testing::Types, moke::product_t<dtypes, shapes_mn, shapes_k>>;
 
 TYPED_TEST_SUITE(MatmulBenchmark, test_params);
