@@ -99,3 +99,28 @@ TEST(TestMeta, TestSwap) {
     static_assert(std::same_as<swap_t<swap_t<list, 0, 2>, 0, 2>, list>);
     static_assert(std::same_as<swap_t<constant_tuple<7>, 0, 0>, constant_tuple<7>>);
 }
+
+TEST(TestMeta, TestMinMax) {
+    using list = constant_tuple<10, 20, 5, 40>;
+    using duplicate_min = constant_tuple<10, 5, 20, 5>;
+    using duplicate_max = constant_tuple<10, 30, 20, 30>;
+    using negative = constant_tuple<3, -8, 2, -1>;
+
+    static_assert(min_value<list>() == 5);
+    static_assert(max_value<list>() == 40);
+    static_assert(min_value(constant_tuple<7>{}) == 7);
+    static_assert(max_value(constant_tuple<7>{}) == 7);
+    static_assert(min_value<duplicate_min>() == 5);
+    static_assert(max_value<duplicate_max>() == 30);
+    static_assert(min_value<negative>() == -8);
+    static_assert(max_value<negative>() == 3);
+
+    static_assert(min_index<list>() == 2);
+    static_assert(max_index<list>() == 3);
+    static_assert(min_index(constant_tuple<7>{}) == 0);
+    static_assert(max_index(constant_tuple<7>{}) == 0);
+    static_assert(min_index<duplicate_min>() == 1);
+    static_assert(max_index<duplicate_max>() == 1);
+    static_assert(min_index<negative>() == 1);
+    static_assert(max_index<negative>() == 0);
+}

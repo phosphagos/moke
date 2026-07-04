@@ -147,4 +147,84 @@ namespace meta {
 
 template <class T, index_t M, index_t N>
 using swap_t = typename meta::swap<T, M, N>::type;
+
+//
+// meta implementation of min_value, min_index, max_value, and max_index
+//
+namespace meta {
+    template <class T> struct min_value;
+    template <class T> struct max_value;
+    template <class T> struct min_index;
+    template <class T> struct max_index;
+
+    template <auto N>
+    struct min_value<constant_tuple<N>> {
+        constexpr static auto value = N;
+    };
+
+    template <auto N, auto M, auto... Ns>
+    struct min_value<constant_tuple<N, M, Ns...>> {
+        constexpr static auto tail_value = min_value<constant_tuple<M, Ns...>>::value;
+        constexpr static auto value = N <= tail_value ? N : tail_value;
+    };
+
+    template <auto N>
+    struct max_value<constant_tuple<N>> {
+        constexpr static auto value = N;
+    };
+
+    template <auto N, auto M, auto... Ns>
+    struct max_value<constant_tuple<N, M, Ns...>> {
+        constexpr static auto tail_value = max_value<constant_tuple<M, Ns...>>::value;
+        constexpr static auto value = N >= tail_value ? N : tail_value;
+    };
+
+    template <auto N>
+    struct min_index<constant_tuple<N>> {
+        constexpr static index_t value = 0;
+    };
+
+    template <auto N, auto M, auto... Ns>
+    struct min_index<constant_tuple<N, M, Ns...>> {
+        constexpr static auto tail_value = min_value<constant_tuple<M, Ns...>>::value;
+        constexpr static index_t tail_index = min_index<constant_tuple<M, Ns...>>::value;
+        constexpr static index_t value = N <= tail_value ? 0 : tail_index + 1;
+    };
+
+    template <auto N>
+    struct max_index<constant_tuple<N>> {
+        constexpr static index_t value = 0;
+    };
+
+    template <auto N, auto M, auto... Ns>
+    struct max_index<constant_tuple<N, M, Ns...>> {
+        constexpr static auto tail_value = max_value<constant_tuple<M, Ns...>>::value;
+        constexpr static index_t tail_index = max_index<constant_tuple<M, Ns...>>::value;
+        constexpr static index_t value = N >= tail_value ? 0 : tail_index + 1;
+    };
+} // namespace meta
+
+/// @brief get the minimum value from a constant_tuple
+/// @param CTuple a constant_tuple<Ns...>
+/// @returns min(Ns...)
+template <class CTuple>
+consteval auto min_value(CTuple = {}) { return meta::min_value<CTuple>::value; }
+
+/// @brief get the index of minimum value from a constant_tuple
+/// @param CTuple a constant_tuple<Ns...>
+/// @returns the first index that makes get_value<CTuple, index>() == min(Ns...)
+template <class CTuple>
+consteval index_t min_index(CTuple = {}) { return meta::min_index<CTuple>::value; }
+
+/// @brief get the maximum value from a constant_tuple
+/// @param CTuple a constant_tuple<Ns...>
+/// @returns max(Ns...)
+template <class CTuple>
+consteval auto max_value(CTuple = {}) { return meta::max_value<CTuple>::value; }
+
+/// @brief get the index of maximum value from a constant_tuple
+/// @param CTuple a constant_tuple<Ns...>
+/// @returns the first index that makes get_value<CTuple, index>() == max(Ns...)
+template <class CTuple>
+consteval index_t max_index(CTuple = {}) { return meta::max_index<CTuple>::value; }
 } // namespace moke
