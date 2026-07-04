@@ -34,18 +34,18 @@ void matmul_static(const dtype *a, const dtype *b, dtype *d, C<M> m, C<N> n, C<K
     auto tD = moke::make_tensor(d, m, n);
     matmul_kernel<<<nblocks, nthreads>>>(tA, tB, tD);
 
-    static_assert(std::same_as<decltype(tA), moke::static_tensor<const dtype,                                    //
-                                                                 moke::static_layout<moke::constant_tuple<M, K>, //
-                                                                                     moke::constant_tuple<K, 1>, //
-                                                                                     M * K, 1>>>);
-    static_assert(std::same_as<decltype(tB), moke::static_tensor<const dtype,                                    //
-                                                                 moke::static_layout<moke::constant_tuple<K, N>, //
-                                                                                     moke::constant_tuple<N, 1>, //
-                                                                                     N * K, 1>>>);
-    static_assert(std::same_as<decltype(tD), moke::static_tensor<dtype,                                          //
-                                                                 moke::static_layout<moke::constant_tuple<M, N>, //
-                                                                                     moke::constant_tuple<N, 1>, //
-                                                                                     M * N, 1>>>);
+    static_assert(std::same_as<decltype(tA),
+                               moke::static_tensor<const dtype,                                    //
+                                                   moke::static_layout<moke::constant_tuple<M, K>, //
+                                                                       moke::constant_tuple<K, 1>>>>);
+    static_assert(std::same_as<decltype(tB),
+                               moke::static_tensor<const dtype,                                    //
+                                                   moke::static_layout<moke::constant_tuple<K, N>, //
+                                                                       moke::constant_tuple<N, 1>>>>);
+    static_assert(std::same_as<decltype(tD),
+                               moke::static_tensor<dtype,                                          //
+                                                   moke::static_layout<moke::constant_tuple<M, N>, //
+                                                                       moke::constant_tuple<N, 1>>>>);
 }
 
 template <class dtype>

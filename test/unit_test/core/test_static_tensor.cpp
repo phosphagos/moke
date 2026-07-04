@@ -123,6 +123,8 @@ TEST(TestStaticTensor, TestCoexistWithDynamicMakers) {
     EXPECT_EQ(dyn.size(), 2048u);
 
     // compile-time shapes select the static_tensor makers
-    auto stat = make_tensor(buf, constant_tuple<16, 16, 8>{});
-    static_assert(std::same_as<decltype(stat)::layout_t, static_layout<constant_tuple<16, 16, 8>, constant_tuple<128, 8, 1>, 2048, 2>>);
+    auto stat = make_tensor(buf, 16_ic, 16_ic, 8_ic);
+    static_assert(std::same_as<decltype(stat)::layout_t,                //
+                               static_layout<constant_tuple<16, 16, 8>, //
+                                             constant_tuple<128, 8, 1>>>);
 }

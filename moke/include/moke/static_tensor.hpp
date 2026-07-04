@@ -6,10 +6,10 @@ namespace moke {
 template <class T, class Layout>
 class static_tensor;
 
-template <class T, std::integral auto... Shapes, std::integral auto... Strides, size_t Size, int DimCons>
-class static_tensor<T, static_layout<constant_tuple<Shapes...>, constant_tuple<Strides...>, Size, DimCons>> {
+template <class T, std::integral auto... Shapes, std::integral auto... Strides>
+class static_tensor<T, static_layout<constant_tuple<Shapes...>, constant_tuple<Strides...>>> {
 public:
-    using layout_t = static_layout<constant_tuple<Shapes...>, constant_tuple<Strides...>, Size, DimCons>;
+    using layout_t = static_layout<constant_tuple<Shapes...>, constant_tuple<Strides...>>;
     using shape_t = typename layout_t::shape;
     using stride_t = typename layout_t::stride;
     using value_t = T;

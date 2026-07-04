@@ -3,21 +3,24 @@
 #include "moke/meta.hpp"
 
 namespace moke {
-template <class Shape, class Stride, size_t Size, int DimCons>
+template <class Shape, class Stride>
 struct static_layout;
 
-template <std::integral auto... Shapes, std::integral auto... Strides, size_t Size, int DimCons>
-struct static_layout<constant_tuple<Shapes...>, constant_tuple<Strides...>, Size, DimCons> {
+template <std::integral auto... Shapes, std::integral auto... Strides>
+struct static_layout<constant_tuple<Shapes...>, constant_tuple<Strides...>> {
     using offset_t = size_t;
 
     using shape = constant_tuple<Shapes...>;
     using stride = constant_tuple<Strides...>;
 
-    static_assert(sizeof...(Shapes) == sizeof...(Strides));
-    constexpr static size_t rank = sizeof...(Shapes);
-    constexpr static size_t size = Size;
+    static_assert(shape::size == stride::size, "length of shape and stride should be the same.");
+    static_assert(min_value<stride>() == 1, "stride of static_layout should be consecutive.");
+
+    constexpr static size_t rank = shape::size;
+    constexpr static int innermost_dim = min_index<stride>();
+    constexpr static int outermost_dim = max_index<stride>();
+    constexpr static size_t size = get_value<shape, outermost_dim>() * get_value<stride, outermost_dim>();
     constexpr static bool empty = (size == 0);
-    constexpr static int dim_cons = DimCons;
 
     MOKE_CONSTEXPR offset_t operator()(std::integral auto... indices) const noexcept {
         static_assert(sizeof...(indices) <= rank, "too many indices for this layout");
@@ -62,7 +65,7 @@ MOKE_CONSTEVAL auto make_right_major_layout(constant_tuple<Shapes...>) {
     using stride = meta::right_major_layout<shape>::stride;
     constexpr int rank = sizeof...(Shapes);
     constexpr size_t size = get_value<shape, 0>() * get_value<stride, 0>();
-    return static_layout<shape, stride, size, rank - 1>{};
+    return static_layout<shape, stride>{};
 }
 
 template <std::integral auto... Shapes>
@@ -104,7 +107,7 @@ MOKE_CONSTEVAL auto make_left_major_layout(constant_tuple<Shapes...>) {
     using stride = meta::left_major_layout<1, Shapes...>::stride;
     constexpr int rank = sizeof...(Shapes);
     constexpr size_t size = get_value<shape, rank - 1>() * get_value<stride, rank - 1>();
-    return static_layout<shape, stride, size, 0>{};
+    return static_layout<shape, stride>{};
 }
 
 template <std::integral auto... Shapes>

@@ -5,14 +5,14 @@ using namespace moke;
 using namespace moke::literals;
 
 TEST(TestStaticLayout, TestRightMajorLayout) {
-    // (16, 16, 8) -> strides (128, 8, 1), size 2048, dim_cons rank - 1
+    // (16, 16, 8) -> strides (128, 8, 1), size 2048, innermost_dim rank - 1
     using layout = decltype(make_right_major_layout(constant_tuple<16, 16, 8>{}));
 
     static_assert(std::same_as<layout::shape, constant_tuple<16, 16, 8>>);
     static_assert(std::same_as<layout::stride, constant_tuple<16 * 8, 8, 1>>);
     static_assert(layout::rank == 3);
     static_assert(layout::size == 2048);
-    static_assert(layout::dim_cons == 2);
+    static_assert(layout::innermost_dim == 2);
     static_assert(layout::empty == false);
 
     // the constant<...> overload produces the same type
@@ -20,14 +20,14 @@ TEST(TestStaticLayout, TestRightMajorLayout) {
 }
 
 TEST(TestStaticLayout, TestLeftMajorLayout) {
-    // (16, 16, 8) -> strides (1, 16, 256), size 2048, dim_cons 0
+    // (16, 16, 8) -> strides (1, 16, 256), size 2048, innermost_dim 0
     using layout = decltype(make_left_major_layout(constant_tuple<16, 16, 8>{}));
 
     static_assert(std::same_as<layout::shape, constant_tuple<16, 16, 8>>);
     static_assert(std::same_as<layout::stride, constant_tuple<1, 16, 256>>);
     static_assert(layout::rank == 3);
     static_assert(layout::size == 2048);
-    static_assert(layout::dim_cons == 0);
+    static_assert(layout::innermost_dim == 0);
     static_assert(layout::empty == false);
 
     static_assert(std::same_as<layout, decltype(make_left_major_layout(16_ic, 16_ic, 8_ic))>);
@@ -91,7 +91,7 @@ TEST(TestStaticLayout, TestEdgeCases) {
     static_assert(std::same_as<vec::stride, constant_tuple<1>>);
     static_assert(vec::rank == 1);
     static_assert(vec::size == 7);
-    static_assert(vec::dim_cons == 0);
+    static_assert(vec::innermost_dim == 0);
     static_assert(vec{}(5) == 5);
 
     // a zero extent makes the layout empty

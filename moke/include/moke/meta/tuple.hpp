@@ -63,7 +63,7 @@ namespace meta {
 } // namespace meta
 
 template <class CTuple, std::integral auto Idx>
-consteval auto get_value(CTuple = {}, C<Idx> = {}) { return get_t<CTuple, Idx>::value; }
+MOKE_CONSTEVAL auto get_value(CTuple = {}, C<Idx> = {}) { return get_t<CTuple, Idx>::value; }
 
 //
 // meta implementation of concat_t
@@ -208,23 +208,23 @@ namespace meta {
 /// @param CTuple a constant_tuple<Ns...>
 /// @returns min(Ns...)
 template <class CTuple>
-consteval auto min_value(CTuple = {}) { return meta::min_value<CTuple>::value; }
+MOKE_CONSTEVAL auto min_value(CTuple = {}) { return meta::min_value<CTuple>::value; }
 
 /// @brief get the index of minimum value from a constant_tuple
 /// @param CTuple a constant_tuple<Ns...>
 /// @returns the first index that makes get_value<CTuple, index>() == min(Ns...)
 template <class CTuple>
-consteval index_t min_index(CTuple = {}) { return meta::min_index<CTuple>::value; }
+MOKE_CONSTEVAL index_t min_index(CTuple = {}) { return meta::min_index<CTuple>::value; }
 
 /// @brief get the maximum value from a constant_tuple
 /// @param CTuple a constant_tuple<Ns...>
 /// @returns max(Ns...)
 template <class CTuple>
-consteval auto max_value(CTuple = {}) { return meta::max_value<CTuple>::value; }
+MOKE_CONSTEVAL auto max_value(CTuple = {}) { return meta::max_value<CTuple>::value; }
 
 /// @brief get the index of maximum value from a constant_tuple
 /// @param CTuple a constant_tuple<Ns...>
 /// @returns the first index that makes get_value<CTuple, index>() == max(Ns...)
 template <class CTuple>
-consteval index_t max_index(CTuple = {}) { return meta::max_index<CTuple>::value; }
+MOKE_CONSTEVAL index_t max_index(CTuple = {}) { return meta::max_index<CTuple>::value; }
 } // namespace moke
